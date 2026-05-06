@@ -1,5 +1,5 @@
 # FinanceFlow 💸
-A sleek, professional finance tracking application built with **React** and **Tailwind CSS**. 
+A sleek, professional finance tracking application built with **Vanilla JS** and **Tailwind CSS**. 
 
 ## 🚀 Live Demo
 [View the Live App here!](https://simon-dawit.github.io/for_portfolio/)
@@ -12,9 +12,11 @@ A sleek, professional finance tracking application built with **React** and **Ta
 * **Dark Mode:** Gritty, atmospheric UI for late-night budgeting.
 
 ## 🛠️ Tech Stack
-* **Frontend:** React.js, Tailwind CSS
+* **Language:** HTML5, Modern JavaScript (ES6+)
+* **Styling:** Tailwind CSS (via CDN)
 * **API:** Open Exchange Rates API
-* **Icons:** Heroicons / SVG
+* **Deployment:** GitHub Pages
+
 
 ## 🧑‍💻 Developer
 **Saymon Zerabiruk** Software Engineering Student | Web Architect
