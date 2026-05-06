@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FinanceFlow</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
+    
+    .dark body { background-color: #0f172a; }
+    .dark .bg-white { background-color: #1e293b; color: #f1f5f9; }
+    .dark .text-gray-900 { color: #ffffff; }
+    .dark .border-slate-100 { border-color: #334155; }
+    
+    .dark select, .dark option { background-color: #1e293b; color: white; }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+  </style>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 md:p-6 transition-colors duration-300">
+
+  <div class="bg-white shadow-2xl rounded-[2rem] w-full max-w-5xl p-6 md:p-10 relative overflow-hidden border border-white/20">
+    
+    <div class="flex justify-between items-center mb-10">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Finance<span class="text-indigo-600">Flow</span></h1>
+        <p id="subTitle" class="text-sm text-gray-500">Master your capital</p>
+      </div>
+      <div class="flex gap-3">
+        <button id="clearHistory" class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-red-500 hover:bg-red-50 rounded-lg transition-all border border-red-100">
+          Clear History
+        </button>
+        <button id="openSettings" class="p-2 hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-xl transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.332.183-.582.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 0 1 0-.255c.007-.378.138.75-.43-.99l-1.004-.828a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="settingsPanel" class="fixed inset-y-0 right-0 w-80 bg-white/95 backdrop-blur-xl shadow-2xl transform translate-x-full transition-transform duration-500 z-50 p-8 border-l border-white/20 dark:bg-slate-900/95 overflow-y-auto custom-scrollbar">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">Preferences</h2>
+        <button id="closeSettings" class="text-3xl">&times;</button>
+      </div>
+      
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-semibold mb-3">Appearance</label>
+          <button id="themeToggle" class="w-full bg-gray-100 dark:bg-slate-800 p-3 rounded-xl flex items-center justify-between">
+            <span id="themeLabel">Light Mode</span>
+            <div id="themeIcon">☀️</div>
+          </button>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-3">Language</label>
+          <select id="langSelect" class="w-full border p-3 rounded-xl bg-transparent outline-none">
+            <option value="en">English</option>
+            <option value="ti">ትግርኛ (Tigrigna)</option>
+            <option value="am">አማርኛ (Amharic)</option>
+            <option value="zh">中文 (Chinese)</option>
+            <option value="ar">العربية (Arabic)</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="ja">日本語 (Japanese)</option>
+            <option value="pt">Português</option>
+            <option value="ru">Русский</option>
+            <option value="tr">Türkçe</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold mb-3">Base Currency</label>
+          <select id="mainCurrency" class="w-full border p-3 rounded-xl bg-transparent outline-none"></select>
+        </div>
+
+        <div class="pt-6 border-t dark:border-slate-700">
+          <label class="block text-sm font-semibold mb-3 text-indigo-500">Quick Converter</label>
+          <div class="space-y-3">
+            <input type="number" id="convAmount" value="1" class="w-full p-2 border rounded-lg bg-transparent text-sm">
+            <div class="flex gap-2">
+              <select id="convFrom" class="w-1/2 p-2 border rounded-lg bg-transparent text-xs"></select>
+              <select id="convTo" class="w-1/2 p-2 border rounded-lg bg-transparent text-xs"></select>
+            </div>
+            <p id="convResult" class="text-center font-bold text-indigo-600 text-sm">---</p>
+          </div>
+        </div>
+
+        <div class="pt-6 border-t dark:border-slate-700">
+          <h3 class="font-bold text-indigo-500 mb-2 text-sm">About Developer</h3>
+          <p class="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed mb-4">
+            Software Engineering student specializing in scalable web architectures and intuitive UI design.
+          </p>
+          <div class="space-y-2">
+            <a href="#" class="block text-sm font-medium hover:text-indigo-500 transition-colors" target="_blank">Project Portfolio</a>
+            <a href="https://github.com/Simon-Dawit" class="block text-sm font-medium hover:text-indigo-500 transition-colors" target="_blank">GitHub Repository</a>
+            <a href="https://www.linkedin.com/in/simon-dawit-72b56a34a/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BKE6iKdjZRwewOwdazy9LCg%3D%3D" class="block text-sm font-medium hover:text-indigo-500 transition-colors" target="_blank">Direct Inquiry</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-40"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="bg-indigo-600 p-6 rounded-[1.5rem] text-white shadow-lg shadow-indigo-200 dark:shadow-none">
+        <h2 id="lblBalance" class="text-indigo-100 text-xs font-bold uppercase tracking-widest mb-1">Balance</h2>
+        <p id="balance" class="text-3xl font-bold">$0.00</p>
+      </div>
+      <div class="bg-white border border-slate-100 p-6 rounded-[1.5rem] shadow-sm">
+        <h2 id="lblIncome" class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Income</h2>
+        <p id="income" class="text-3xl font-bold text-emerald-500">$0.00</p>
+      </div>
+      <div class="bg-white border border-slate-100 p-6 rounded-[1.5rem] shadow-sm">
+        <h2 id="lblExpense" class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Expenses</h2>
+        <p id="expense" class="text-3xl font-bold text-rose-500">$0.00</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <div class="lg:col-span-2">
+        <h3 id="lblNewEntry" class="text-lg font-bold mb-6">New Entry</h3>
+        <form id="transactionForm" class="space-y-5">
+          <input type="text" id="text" placeholder="Description" class="w-full border-b-2 border-slate-100 dark:border-slate-700 focus:border-indigo-500 py-3 bg-transparent outline-none transition-all" required />
+          <div class="flex gap-4">
+            <input type="number" id="amount" placeholder="0.00" step="0.01" class="w-1/2 border-b-2 border-slate-100 dark:border-slate-700 focus:border-indigo-500 py-3 bg-transparent outline-none transition-all" required />
+            <select id="type" class="w-1/2 border-b-2 border-slate-100 dark:border-slate-700 focus:border-indigo-500 py-3 bg-transparent outline-none transition-all">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+            </select>
+          </div>
+          <input type="text" id="category" placeholder="Category" class="w-full border-b-2 border-slate-100 dark:border-slate-700 focus:border-indigo-500 py-3 bg-transparent outline-none transition-all" />
+          <button id="btnAdd" type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 dark:shadow-none">
+            Add Transaction
+          </button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-3">
+        <h3 id="lblActivity" class="text-lg font-bold mb-6">Activity</h3>
+        <div id="transactionList" class="space-y-4 max-h-[400px] overflow-y-auto pr-4 custom-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://open.er-api.com/v6/latest/USD";
+    
+    const translations = {
+      en: { balance: "Balance", income: "Income", expense: "Expenses", newEntry: "New Entry", activity: "Activity", add: "Add Transaction", subtitle: "Master your capital" },
+      ti: { balance: "ተረፍ ሕሳብ", income: "ኣታዊ", expense: "ወጻኢ", newEntry: "ሓድሽ መዝገብ", activity: "ንጥፈት", add: "ወስኽ", subtitle: "ገንዘብካ ተቆጻጸር" },
+      am: { balance: "ቀሪ ሂሳብ", income: "ገቢ", expense: "ወጪ", newEntry: "አዲስ መዝግብ", activity: "እንቅስቃሴ", add: "ጨምር", subtitle: "ካፒታልዎን ይቆጣጠሩ" },
+      zh: { balance: "余额", income: "收入", expense: "支出", newEntry: "新条目", activity: "活动", add: "添加交易", subtitle: "掌控您的资本" },
+      ar: { balance: "الرصيد", income: "الدخل", expense: "المصاريف", newEntry: "إدخال جديد", activity: "النشاط", add: "إضافة عملية", subtitle: "تحكم في رأس مالك" },
+      es: { balance: "Saldo", income: "Ingresos", expense: "Gastos", newEntry: "Nueva entrada", activity: "Actividad", add: "Añadir", subtitle: "Domina tu capital" },
+      fr: { balance: "Solde", income: "Revenus", expense: "Dépenses", newEntry: "Nouvelle entrée", activity: "Activité", add: "Ajouter", subtitle: "Maîtrisez votre capital" },
+      de: { balance: "Kontostand", income: "Einnahmen", expense: "Ausgaben", newEntry: "Neuer Eintrag", activity: "Aktivität", add: "Hinzufügen", subtitle: "Meistern Sie Ihr Kapital" },
+      ja: { balance: "残高", income: "収入", expense: "支出", newEntry: "新規入力", activity: "履歴", add: "取引を追加", subtitle: "資産を管理する" },
+      pt: { balance: "Saldo", income: "Receita", expense: "Despesas", newEntry: "Nova entrada", activity: "Atividade", add: "Adicionar", subtitle: "Domine seu capital" },
+      ru: { balance: "Баланс", income: "Доход", expense: "Расходы", newEntry: "Новая запись", activity: "История", add: "Добавить", subtitle: "Управляйте капиталом" },
+      tr: { balance: "Bakiye", income: "Gelir", expense: "Gider", newEntry: "Yeni Giriş", activity: "Aktivite", add: "İşlem Ekle", subtitle: "Sermayenizi Yönetin" }
+    };
+
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    let rates = {};
+    let selectedCurrency = localStorage.getItem("mainCurrency") || "USD";
+    let currentLang = localStorage.getItem("lang") || "en";
+    let isDark = localStorage.getItem("theme") === "dark";
+
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.getElementById("themeLabel").innerText = "Dark Mode";
+      document.getElementById("themeIcon").innerText = "🌙";
+    }
+
+    function updateLanguage() {
+      const t = translations[currentLang] || translations.en;
+      document.getElementById("lblBalance").innerText = t.balance;
+      document.getElementById("lblIncome").innerText = t.income;
+      document.getElementById("lblExpense").innerText = t.expense;
+      document.getElementById("lblNewEntry").innerText = t.newEntry;
+      document.getElementById("lblActivity").innerText = t.activity;
+      document.getElementById("btnAdd").innerText = t.add;
+      document.getElementById("subTitle").innerText = t.subtitle;
+      localStorage.setItem("lang", currentLang);
+    }
+
+    function runQuickConvert() {
+      const amt = parseFloat(document.getElementById("convAmount").value) || 0;
+      const from = document.getElementById("convFrom").value;
+      const to = document.getElementById("convTo").value;
+      const res = (amt / rates[from]) * rates[to];
+      document.getElementById("convResult").innerText = `${amt} ${from} = ${res.toFixed(2)} ${to}`;
+    }
+
+    document.getElementById("openSettings").onclick = () => {
+      document.getElementById("settingsPanel").classList.remove("translate-x-full");
+      document.getElementById("overlay").classList.remove("hidden");
+    };
+
+    const closeMenu = () => {
+      document.getElementById("settingsPanel").classList.add("translate-x-full");
+      document.getElementById("overlay").classList.add("hidden");
+    };
+
+    document.getElementById("closeSettings").onclick = closeMenu;
+    document.getElementById("overlay").onclick = closeMenu;
+
+    document.getElementById("themeToggle").onclick = () => {
+      isDark = !isDark;
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      document.getElementById("themeLabel").innerText = isDark ? "Dark Mode" : "Light Mode";
+      document.getElementById("themeIcon").innerText = isDark ? "🌙" : "☀️";
+    };
+
+    document.getElementById("langSelect").onchange = (e) => {
+      currentLang = e.target.value;
+      updateLanguage();
+    };
+
+    async function fetchCurrencies() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        rates = data.rates;
+        const currencies = Object.keys(rates);
+        
+        const populate = (id) => {
+          const el = document.getElementById(id);
+          el.innerHTML = currencies.map(c => `<option value="${c}">${c}</option>`).join('');
+        };
+
+        ["mainCurrency", "convFrom", "convTo"].forEach(populate);
+        
+        document.getElementById("mainCurrency").value = selectedCurrency;
+        document.getElementById("convFrom").value = "USD";
+        document.getElementById("convTo").value = "EUR";
+
+        renderTransactions();
+      } catch (error) { console.error(error); }
+    }
+
+    function renderTransactions() {
+      const list = document.getElementById("transactionList");
+      list.innerHTML = transactions.length ? "" : '<p class="text-center text-slate-400 py-10 text-sm">Start tracking today</p>';
+
+      transactions.forEach(t => {
+        const conv = t.amount * (rates[selectedCurrency] || 1);
+        const isInc = t.amount > 0;
+        const div = document.createElement("div");
+        div.className = `flex justify-between items-center p-5 rounded-2xl border dark:border-slate-700 ${isInc ? 'bg-emerald-50/20' : 'bg-rose-50/20'}`;
+        div.innerHTML = `
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold ${isInc ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}">
+              ${t.text.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p class="font-bold text-sm dark:text-white">${t.text}</p>
+              <p class="text-[10px] text-slate-400 uppercase tracking-widest">${t.category || 'General'}</p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-bold ${isInc ? 'text-emerald-600' : 'text-rose-600'}">${isInc ? '+' : ''}${conv.toFixed(2)}</p>
+            <button onclick="deleteTx(${t.id})" class="text-[10px] text-slate-300 hover:text-red-500 uppercase font-bold">Remove</button>
+          </div>`;
+        list.appendChild(div);
+      });
+      updateSummary();
+    }
+
+    function updateSummary() {
+      const am = transactions.map(t => t.amount);
+      const b = am.reduce((acc, v) => acc + v, 0) * (rates[selectedCurrency] || 1);
+      const i = am.filter(v => v > 0).reduce((acc, v) => acc + v, 0) * (rates[selectedCurrency] || 1);
+      const e = am.filter(v => v < 0).reduce((acc, v) => acc + v, 0) * (rates[selectedCurrency] || 1);
+
+      document.getElementById("balance").innerText = `${selectedCurrency} ${b.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById("income").innerText = `${selectedCurrency} ${i.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      document.getElementById("expense").innerText = `${selectedCurrency} ${Math.abs(e).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+    }
+
+    window.deleteTx = (id) => {
+      transactions = transactions.filter(t => t.id !== id);
+      renderTransactions();
+    };
+
+    document.getElementById("transactionForm").onsubmit = (e) => {
+      e.preventDefault();
+      
+      const inputAmount = parseFloat(document.getElementById("amount").value);
+      const isExpense = document.getElementById("type").value === "expense";
+      
+      // LOGIC FIX: Convert the input value from the selected currency back to USD for storage
+      const amountInUSD = (isExpense ? -inputAmount : inputAmount) / (rates[selectedCurrency] || 1);
+
+      transactions.unshift({
+        id: Date.now(),
+        text: document.getElementById("text").value,
+        category: document.getElementById("category").value,
+        amount: amountInUSD 
+      });
+      
+      e.target.reset();
+      renderTransactions();
+    };
+
+    document.getElementById("mainCurrency").onchange = (e) => {
+      selectedCurrency = e.target.value;
+      localStorage.setItem("mainCurrency", selectedCurrency);
+      renderTransactions();
+    };
+
+    ["convAmount", "convFrom", "convTo"].forEach(id => {
+      document.getElementById(id).oninput = runQuickConvert;
+    });
+
+    document.getElementById("clearHistory").onclick = () => { if(confirm("Wipe all data?")) { transactions = []; renderTransactions(); } };
+
+    document.getElementById("langSelect").value = currentLang;
+    updateLanguage();
+    fetchCurrencies();
+  </script>
+</body>
+</html>
