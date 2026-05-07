@@ -19,4 +19,4 @@ A sleek, professional finance tracking application built with **Vanilla JS** and
 
 
 ## 🧑‍💻 Developer
-**Saymon Zerabiruk** Software Engineering Student | Web Architect
+**Saymon Dawit Zerabiruk** Software Engineering Student | Web Architect
